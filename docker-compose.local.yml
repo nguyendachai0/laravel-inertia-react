@@ -1,0 +1,55 @@
+services:
+    app:
+        container_name: app
+        build:
+            context: .
+            target: php
+            args:
+                - APP_ENV=${APP_ENV}
+        environment:
+            - APP_ENV=${APP_ENV}
+        working_dir: /app
+        volumes:
+            - ./:/app
+        ports:
+            - 8080:8080
+        networks:
+            - laravel-network
+        depends_on:
+            - database
+    database:
+        container_name: database
+        image: mysql:8.0
+        ports:
+            -   3306:3306
+        environment:
+            - MYSQL_DATABASE=default
+            - MYSQL_USER=laravel
+            - MYSQL_PASSWORD=secret
+            - MYSQL_ROOT_PASSWORD=secret
+        volumes:
+            - db-data:/var/lib/mysql
+        networks:
+            - laravel-network
+    frontend:
+        container_name: frontend
+        build:
+            context: ./docker/react
+            dockerfile: Dockerfile
+        ports:
+            - "5173:5173"
+        volumes:
+            - .:/app
+            - ./node_modules:/app/node_modules
+        working_dir: /app
+        command: npm run dev -- --host
+        depends_on:
+            - app
+        networks:
+            - laravel-network
+networks:
+  laravel-network:
+    driver: bridge
+
+volumes:
+    db-data: ~
