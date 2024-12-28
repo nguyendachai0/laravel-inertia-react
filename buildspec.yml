@@ -13,8 +13,9 @@ phases:
   build:
     on-failure: ABORT 
     commands:
+      - npm run build 
       - cp .env.prod .env
-      - docker build -t $IMAGE .
+      - docker build -t $IMAGE .  
       - docker tag $IMAGE:$IMAGE_TAG $REPOSITORY/$IMAGE:$IMAGE_TAG    
   post_build:
     on-failure: ABORT 
