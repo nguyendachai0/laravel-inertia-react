@@ -13,6 +13,8 @@ phases:
   build:
     on-failure: ABORT 
     commands:
+      - echo 'Installing dependencies...'
+      - npm install 
       - npm run build 
       - cp .env.prod .env
       - docker build -t $IMAGE .  
