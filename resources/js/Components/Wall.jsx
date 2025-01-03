@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 const createWallsWithBoards = (renderer, scene) => {
     const wallTexture = new THREE.TextureLoader().load(
-        "https://preview.redd.it/backrooms-textures-v0-3b0m6yqrjhk91.png?width=512&format=png&auto=webp&s=2173f67a300427e7f5d0dfb496c57b111ac10c43"
+        "backrooms-textures-v0-3b0m6yqrjhk91.webp"
     );
     wallTexture.wrapS = wallTexture.wrapT = THREE.RepeatWrapping;
     wallTexture.repeat.set(2, 2);
@@ -16,7 +16,7 @@ const createWallsWithBoards = (renderer, scene) => {
     });
 
     const baseboardTexture = new THREE.TextureLoader().load(
-        "https://preview.redd.it/backrooms-textures-v0-3b0m6yqrjhk91.png?width=512&format=png&auto=webp&s=2173f67a300427e7f5d0dfb496c57b111ac10c43"
+        "backrooms-textures-v0-3b0m6yqrjhk91.webp"
     );
 
     const anisotropy = renderer.capabilities.getMaxAnisotropy();

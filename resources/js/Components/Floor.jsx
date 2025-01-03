@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 const Floor = (scene) => {
     const floorTexture = new THREE.TextureLoader().load(
-        'https://preview.redd.it/backrooms-textures-v0-mbq1c28sjhk91.png?width=512&format=png&auto=webp&s=97fa5b7dd5dd97d6fc5c9646375e42a5609b853b'
+        'backrooms-textures-v0-mbq1c28sjhk91.webp'
     );
 
     floorTexture.wrapS = THREE.RepeatWrapping;
