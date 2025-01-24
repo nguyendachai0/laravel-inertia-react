@@ -1,5 +1,5 @@
 # Used for prod build.
-FROM 637423634020.dkr.ecr.ap-southeast-1.amazonaws.com/prod-laravel-inertia-react-base-image:latest AS php
+FROM test AS php
 
 # Copy configuration files.
 COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
