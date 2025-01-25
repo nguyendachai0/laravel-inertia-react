@@ -5,15 +5,17 @@ import { FaCompass } from "react-icons/fa";
 import { createBoard, updateBoardContent } from "../Components/Board";
 import createWallsWithBoards from "../Components/Wall";
 import { playWalkingSound, stopWalkingSound } from "../Utils/SoundUtils";
-import Floor from "../Components/Floor";
-
+import createGround from "../Components/Ground";
+import { addCeilingLights } from "../Components/Lights";
+import CreateRoof from "../Components/Ceil";
+import createLargerRoomRoof from "../Components/LargerRoomRoof";
 
 const MazeGame = () => {
     const containerRef = useRef(null);
     const [position, setPosition] = useState({ x: 0, z: 0 });
     const [direction, setDirection] = useState(0);
     const controlsRef = useRef(null);
-    const moveSpeed = 0.06;
+    const moveSpeed = 0.3;
     const obstacles = useRef([]); // Store obstacles for collision detection
 
 
@@ -32,10 +34,10 @@ const MazeGame = () => {
         const init = () => {
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(
-                60,
+                75,
                 window.innerWidth / window.innerHeight,
                 0.1,
-                1000
+                10000
             );
 
             let currentContentIndex = 0;
@@ -67,21 +69,21 @@ const MazeGame = () => {
 
             document.addEventListener("keydown", handleKeyboard);
 
-            Floor(scene);
+            createGround(scene);
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             containerRef.current.appendChild(renderer.domElement);
 
-            const wallObjects = createWallsWithBoards(renderer, scene);
+            const wallObjects = createWallsWithBoards(scene);
             wallObjects.forEach((wall) => {
                 const boundingBox = new THREE.Box3().setFromObject(wall);
                 obstacles.current.push(boundingBox);
             });
 
 
-            // const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-            // scene.add(ambientLight);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
 
             const flickeringLight = new THREE.PointLight(0xffffff, 1, 10);
             flickeringLight.position.set(0, 3, 0);
@@ -92,51 +94,11 @@ const MazeGame = () => {
             roofLight.position.set(30, 15, 0);
             scene.add(roofLight);
 
-            const roofTexture = new THREE.TextureLoader().load(
-                "ecc4175ca2d367138e9d8885c1bf675f.jpg"
-            );
-            roofTexture.wrapS = roofTexture.wrapT = THREE.RepeatWrapping;
-            roofTexture.repeat.set(10, 10);
+            CreateRoof(scene);
 
-            const roofGeometry = new THREE.PlaneGeometry(30, 30);
-            const roofMaterial = new THREE.MeshStandardMaterial({
-                color: 0xffff00,
-                map: roofTexture,
-                side: THREE.DoubleSide,
-            });
-            const roof = new THREE.Mesh(roofGeometry, roofMaterial);
-            roof.rotation.x = Math.PI / 2;
-            roof.position.x = 6;
-            roof.position.y = 7;
-            roof.position.z = 6;
-            scene.add(roof);
+            addCeilingLights(scene, 15);
 
-            const addCeilingLights = () => {
-                for (let x = -15; x <= 15; x += 6) {
-                    for (let z = -15; z <= 15; z += 6) {
-                        const light = new THREE.PointLight(0xffffff, 60, 13);
-                        light.position.set(x + 1.5, 6.9, z + 1.5);
-                        scene.add(light);
-
-                        // Add light fixture mesh
-                        const fixtureGeometry = new THREE.BoxGeometry(3, 0.1, 3);
-                        const fixtureMaterial = new THREE.MeshStandardMaterial({
-                            color: 0xffffff,
-                            emissive: 0xffffff,
-                            emissiveIntensity: 1
-                        });
-                        const fixture = new THREE.Mesh(fixtureGeometry, fixtureMaterial);
-                        fixture.position.set(x + 1.5, 7, z + 1.5);
-                        scene.add(fixture);
-                    }
-                }
-            };
-
-            addCeilingLights();
-
-            Floor(scene);
-
-            // Ceil(textureLoader, scene);
+            createLargerRoomRoof(scene, 580);
 
             camera.position.y = 2;
             controls = new PointerLockControls(camera, document.body);
