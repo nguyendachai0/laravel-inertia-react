@@ -6,15 +6,16 @@ const createGround = (scene) => {
     largeGroundTexture.wrapS = THREE.RepeatWrapping;
     largeGroundTexture.wrapT = THREE.RepeatWrapping;
 
-    const desiredTileCount = 2000; // Number of tiles for the ground
+    const desiredTileCount = 500; // Number of tiles for the ground
 
     // Adjust the texture repeat based on the desired tile count
     largeGroundTexture.repeat.set(desiredTileCount, desiredTileCount);
 
     const groundSize = 600; // Total size of the ground
     const largeGroundMaterial = new THREE.MeshStandardMaterial({
+        color: 0xFFFFFF,
         map: largeGroundTexture,
-        roughness: 0.9,
+        roughness: 2,
     });
 
     const largeGroundGeometry = new THREE.PlaneGeometry(groundSize, groundSize);

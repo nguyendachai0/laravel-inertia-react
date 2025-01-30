@@ -4,9 +4,6 @@ export const initLights = (containerRef, renderer, scene) => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     containerRef.current.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0xaaaaaa, 0.3);  // Increased intensity
-    scene.add(ambientLight);
-
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1);  // Brighter directional light
     directionalLight.position.set(0, 10, 0);
     scene.add(directionalLight);
@@ -17,9 +14,9 @@ export const initLights = (containerRef, renderer, scene) => {
     scene.add(roofLight);
 };
 
-export const addCeilingLights = (scene, ceilLightsQuantity) => {
-    for (let x = -ceilLightsQuantity; x <= ceilLightsQuantity; x += 6) {
-        for (let z = -ceilLightsQuantity; z <= ceilLightsQuantity; z += 6) {
+export const addCeilingLights = (scene, celingQuantityLights) => {
+    for (let x = -celingQuantityLights; x <= celingQuantityLights; x += 6) {
+        for (let z = -celingQuantityLights; z <= celingQuantityLights; z += 6) {
             const light = new THREE.PointLight(0xffffff, 60, 13);
             light.position.set(x + 1.5, 6.9, z + 1.5);
             scene.add(light);
@@ -70,4 +67,7 @@ export const addMoreLights = (scene) => {
         );
         scene.add(dynamicLight);
     }
+
+
+
 };

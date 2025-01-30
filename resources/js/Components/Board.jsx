@@ -69,10 +69,8 @@ export const createBoard = (scene, board, text, position, rotation) => {
         board.rotation.copy(rotation);
 
         // Add lighting to enhance the 3D effect
-        const ambientLight = new THREE.AmbientLight(0x404040, 1); // Soft ambient light
         const pointLight = new THREE.PointLight(0xffffff, 1, 100);
         pointLight.position.set(5, 5, 5); // Position the light to illuminate the board
-        scene.add(ambientLight);
         scene.add(pointLight);
 
         // Add the board to the scene

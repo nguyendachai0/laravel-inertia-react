@@ -1,29 +1,31 @@
-version: 0.2
+# Everything is worked find and I don't want this trigger build code anymore.
+
+# version: 0.2
         
-phases:
-  install:
-    on-failure: ABORT 
-    runtime-versions:
-      php: 8.2
-  pre_build:
-    on-failure: ABORT 
-    commands:
-      - echo 'Logging into Amazon ECR ...'
-      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $REPOSITORY
-  build:
-    on-failure: ABORT 
-    commands:
-      - echo 'Installing dependencies...'
-      - npm install 
-      - npm run build 
-      - cp .env.prod .env
-      - docker build -t $IMAGE .  
-      - docker tag $IMAGE:$IMAGE_TAG $REPOSITORY/$IMAGE:$IMAGE_TAG    
-  post_build:
-    on-failure: ABORT 
-    commands:
-      - docker images ls -a
-      - docker push $REPOSITORY/$IMAGE:$IMAGE_TAG
+# phases:
+#   install:
+#     on-failure: ABORT 
+#     runtime-versions:
+#       php: 8.2
+#   pre_build:
+#     on-failure: ABORT 
+#     commands:
+#       - echo 'Logging into Amazon ECR ...'
+#       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $REPOSITORY
+#   build:
+#     on-failure: ABORT 
+#     commands:
+#       - echo 'Installing dependencies...'
+#       - npm install 
+#       - npm run build 
+#       - cp .env.prod .env
+#       - docker build -t $IMAGE .  
+#       - docker tag $IMAGE:$IMAGE_TAG $REPOSITORY/$IMAGE:$IMAGE_TAG    
+#   post_build:
+#     on-failure: ABORT 
+#     commands:
+#       - docker images ls -a
+#       - docker push $REPOSITORY/$IMAGE:$IMAGE_TAG
     
     
 

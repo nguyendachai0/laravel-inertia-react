@@ -69,6 +69,7 @@ const createWallsWithBoards = (scene) => {
     // Create larger room walls with the same texture as the ground
     const largerRoomWallGeometry = new THREE.BoxGeometry(2, 1000, 2);
     const largerRoomWallMaterial = new THREE.MeshStandardMaterial({
+        color: 0XFFFFFF,
         map: largerWallTexture,
         roughness: 0.9,
     });

@@ -6,7 +6,7 @@ import { createBoard, updateBoardContent } from "../Components/Board";
 import createWallsWithBoards from "../Components/Wall";
 import { playWalkingSound, stopWalkingSound } from "../Utils/SoundUtils";
 import createGround from "../Components/Ground";
-import { addCeilingLights } from "../Components/Lights";
+import { addCeilingLights, addMoreLights } from "../Components/Lights";
 import CreateRoof from "../Components/Ceil";
 import createLargerRoomRoof from "../Components/LargerRoomRoof";
 
@@ -34,11 +34,19 @@ const MazeGame = () => {
         const init = () => {
             scene = new THREE.Scene();
             camera = new THREE.PerspectiveCamera(
-                75,
+                95,
                 window.innerWidth / window.innerHeight,
-                0.1,
-                10000
+                0.5,
+                50000
             );
+
+            // const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            // directionalLight.position.set(50, 1000, 50); // Position above the scene
+            // scene.add(directionalLight);
+
+            const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1.2); // Sky color and ground color
+            hemiLight.position.set(0, 50, 0); // Place the light above the room
+            scene.add(hemiLight);
 
             let currentContentIndex = 0;
             const contentArray = [
@@ -82,7 +90,7 @@ const MazeGame = () => {
             });
 
 
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 2);
             scene.add(ambientLight);
 
             const flickeringLight = new THREE.PointLight(0xffffff, 1, 10);
@@ -97,6 +105,7 @@ const MazeGame = () => {
             CreateRoof(scene);
 
             addCeilingLights(scene, 15);
+            // addMoreLights(scene);
 
             createLargerRoomRoof(scene, 580);
 
@@ -245,8 +254,6 @@ const MazeGame = () => {
             // Render the scene
             renderer.render(scene, camera);
         };
-
-
 
 
         init();
